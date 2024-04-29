@@ -81,41 +81,42 @@ X1.Country_Spain.replace({"True":1, "False":0}, inplace = True)
 
 X1 = X1.fillna(-1)
 X2 = X1['Transaction_Date']
-X1 = X1.drop(columns=['Transaction_Date'])
+X1 = X1.drop(['Transaction_Date'])
 X1 = X1.astype(int)
-
-X_train, X_test, y_train, y_test = train_test_split(X1, y, test_size = 0.2, random_state=42)
-
-# Decision tree with giniIndex
-clf_gini = DecisionTreeClassifier(criterion = "gini",random_state = 100,max_depth=3, min_samples_leaf=5)
-# Performing training
-clf_gini.fit(X_train, y_train)
-# Predicton with giniIndex
-y_pred = clf_gini.predict(X_test)
-print("Decision Tree with giniIndex Results")
-print("Predicted values:",y_pred)
-print("Confusion Matrix: ",confusion_matrix(y_test, y_pred))
-print ("Accuracy : ",accuracy_score(y_test,y_pred)*100)
-print("Report : ",classification_report(y_test, y_pred))
-
-#AUC & ROC CURVE
-y_pred_proba = clf_gini.predict_proba(X_test)[::,1]
-fpr_DTGTEST, tpr_DTGTEST, _ = metrics.roc_curve(y_test,  y_pred_proba)
-auc_DTGTEST = metrics.roc_auc_score(y_test, y_pred_proba)
-
-#create ROC curve
-plt.plot(fpr_DTGTEST,tpr_DTGTEST,label="AUC DT gini Test="+str(auc_DTGTEST))
-plt.ylabel('True Positive Rate')
-plt.xlabel('False Positive Rate')
-plt.legend(loc=4)
-plt.title("ROC curve using Decission Tree with giniIndex")
-plt.show()
-
-X_test['y_pred'] = y_pred
-
-
-prediction_DF1 = final_merged_df[(final_merged_df['Customer_ID'].isin(X_test['Customer_ID'])) & (X_test['y_pred'] == 1)]
-print(prediction_DF1.head())
-
-churn_Prediction = prediction_DF1[["Customer_ID","Account_ID","Name","Phone_Number","Age","Address","Postcode","Country"]]
-print(churn_Prediction.head())
+X1.show()
+#
+# X_train, X_test, y_train, y_test = train_test_split(X1, y, test_size = 0.2, random_state=42)
+#
+# # Decision tree with giniIndex
+# clf_gini = DecisionTreeClassifier(criterion = "gini",random_state = 100,max_depth=3, min_samples_leaf=5)
+# # Performing training
+# clf_gini.fit(X_train, y_train)
+# # Predicton with giniIndex
+# y_pred = clf_gini.predict(X_test)
+# print("Decision Tree with giniIndex Results")
+# print("Predicted values:",y_pred)
+# print("Confusion Matrix: ",confusion_matrix(y_test, y_pred))
+# print ("Accuracy : ",accuracy_score(y_test,y_pred)*100)
+# print("Report : ",classification_report(y_test, y_pred))
+#
+# #AUC & ROC CURVE
+# y_pred_proba = clf_gini.predict_proba(X_test)[::,1]
+# fpr_DTGTEST, tpr_DTGTEST, _ = metrics.roc_curve(y_test,  y_pred_proba)
+# auc_DTGTEST = metrics.roc_auc_score(y_test, y_pred_proba)
+#
+# #create ROC curve
+# plt.plot(fpr_DTGTEST,tpr_DTGTEST,label="AUC DT gini Test="+str(auc_DTGTEST))
+# plt.ylabel('True Positive Rate')
+# plt.xlabel('False Positive Rate')
+# plt.legend(loc=4)
+# plt.title("ROC curve using Decission Tree with giniIndex")
+# plt.show()
+#
+# X_test['y_pred'] = y_pred
+#
+#
+# prediction_DF1 = final_merged_df[(final_merged_df['Customer_ID'].isin(X_test['Customer_ID'])) & (X_test['y_pred'] == 1)]
+# print(prediction_DF1.head())
+#
+# churn_Prediction = prediction_DF1[["Customer_ID","Account_ID","Name","Phone_Number","Age","Address","Postcode","Country"]]
+# print(churn_Prediction.head())
