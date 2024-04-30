@@ -113,56 +113,56 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X1, y, test_size=0.2, random_state=42)
 
-# Create the decision tree classifier with giniIndex
-clf_gini = DecisionTreeClassifier(criterion="gini", random_state=100, max_depth=3, min_samples_leaf=5)
-from sklearn.preprocessing import OneHotEncoder
-encoder = OneHotEncoder()
-X_train_encoded = encoder.fit_transform(X_train)
-X_train = X_train_encoded.toarray()
-clf_gini.fit(X_train, y_train)
-
-# Train the classifier
-encoder = OneHotEncoder()
-X_test_encoded = encoder.fit_transform(X_test)
-X_test = X_test_encoded.toarray()
-
-# Predict using the trained classifier
-y_pred = clf_gini.predict(X_test)
-
-# Print the results
-print("Decision Tree with giniIndex Results")
-print("Predicted values:", y_pred)
-print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
-print("Accuracy : ", accuracy_score(y_test, y_pred) * 100)
-print("Report : ", classification_report(y_test, y_pred))
-#AUC & ROC CURVE
-from sklearn.metrics import roc_curve, roc_auc_score
-import matplotlib.pyplot as plt
-
-# Calculate the predicted probabilities for class 1 (churn)
-y_pred_proba = clf_gini.predict_proba(X_test)[:, 1]
-
-# Compute the ROC curve
-fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
-
-# Calculate the AUC score
-auc_score = roc_auc_score(y_test, y_pred_proba)
-
-# Plot the ROC curve
-plt.plot(fpr, tpr, label="AUC DT gini Test = " + str(auc_score))
-plt.ylabel('True Positive Rate')
-plt.xlabel('False Positive Rate')
-plt.legend(loc=4)
-plt.title("ROC curve using Decision Tree with giniIndex")
-plt.show()
-
-# Add the predicted labels to the test set
-X_test['y_pred'] = y_pred
-
-# Filter the DataFrame for predicted churn cases
-prediction_DF1 = final_merged_df[(final_merged_df['Customer_ID'].isin(X_test['Customer_ID'])) & (X_test['y_pred'] == 1)]
-print(prediction_DF1.head())
-
-# Select relevant columns for churn prediction
-churn_Prediction = prediction_DF1[["Customer_ID", "Account_ID", "Name", "Phone_Number", "Age", "Address", "Postcode", "Country"]]
-print(churn_Prediction.head())
+# # Create the decision tree classifier with giniIndex
+# clf_gini = DecisionTreeClassifier(criterion="gini", random_state=100, max_depth=3, min_samples_leaf=5)
+# from sklearn.preprocessing import OneHotEncoder
+# encoder = OneHotEncoder()
+# X_train_encoded = encoder.fit_transform(X_train)
+# X_train = X_train_encoded.toarray()
+# clf_gini.fit(X_train, y_train)
+#
+# # Train the classifier
+# encoder = OneHotEncoder()
+# X_test_encoded = encoder.fit_transform(X_test)
+# X_test = X_test_encoded.toarray()
+#
+# # Predict using the trained classifier
+# y_pred = clf_gini.predict(X_test)
+#
+# # Print the results
+# print("Decision Tree with giniIndex Results")
+# print("Predicted values:", y_pred)
+# print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
+# print("Accuracy : ", accuracy_score(y_test, y_pred) * 100)
+# print("Report : ", classification_report(y_test, y_pred))
+# #AUC & ROC CURVE
+# from sklearn.metrics import roc_curve, roc_auc_score
+# import matplotlib.pyplot as plt
+#
+# # Calculate the predicted probabilities for class 1 (churn)
+# y_pred_proba = clf_gini.predict_proba(X_test)[:, 1]
+#
+# # Compute the ROC curve
+# fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+#
+# # Calculate the AUC score
+# auc_score = roc_auc_score(y_test, y_pred_proba)
+#
+# # Plot the ROC curve
+# plt.plot(fpr, tpr, label="AUC DT gini Test = " + str(auc_score))
+# plt.ylabel('True Positive Rate')
+# plt.xlabel('False Positive Rate')
+# plt.legend(loc=4)
+# plt.title("ROC curve using Decision Tree with giniIndex")
+# plt.show()
+#
+# # Add the predicted labels to the test set
+# X_test['y_pred'] = y_pred
+#
+# # Filter the DataFrame for predicted churn cases
+# prediction_DF1 = final_merged_df[(final_merged_df['Customer_ID'].isin(X_test['Customer_ID'])) & (X_test['y_pred'] == 1)]
+# print(prediction_DF1.head())
+#
+# # Select relevant columns for churn prediction
+# churn_Prediction = prediction_DF1[["Customer_ID", "Account_ID", "Name", "Phone_Number", "Age", "Address", "Postcode", "Country"]]
+# print(churn_Prediction.head())
